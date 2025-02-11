@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { Stack } from "expo-router";
 import { Slot } from "expo-router";
+import "../App.css";
 import { isLoggedIn } from "../services/auth";
 
 const RootLayout = () => {

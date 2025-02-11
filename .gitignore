@@ -7,7 +7,6 @@ node_modules/
 .expo/
 api/
 services/
-app/(auth)
 dist/
 web-build/
 expo-env.d.ts

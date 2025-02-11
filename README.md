@@ -60,7 +60,7 @@ projet de soutenance croisé
    ├─ data
    │  └─ db.json
    ├─ expo-env.d.ts
-   ├─ global.css
+   ├─ App.css
    ├─ hooks
    │  ├─ useColorScheme.ts
    │  ├─ useColorScheme.web.ts
