@@ -62,7 +62,7 @@ const TabsLayout = () => {
         name="index"
         options={{
           title: "Overview",
-          headerTitle: "SmartStock",
+          headerTitle: "Home",
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="dashboard" size={24} color={color} />
           ),
@@ -86,9 +86,21 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
+        name="scan"
+        options={{
+          title: "Scan",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="qr-code-scanner" size={24} color={color} />
+          ),
+          tabBarLabelStyle: {
+            fontSize: 12,
+            fontWeight: "500",
+          },
+        }}
+      />
+      <Tabs.Screen
         name="settings"
         options={{
-          title: "Settings",
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="settings" size={24} color={color} />
           ),

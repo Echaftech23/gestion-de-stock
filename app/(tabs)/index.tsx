@@ -12,9 +12,9 @@ const HomeScreen = () => {
       >
         <ScrollView className="flex-1 mb-5">
           {/* Header Section */}
-          <View style={{ padding: 24, paddingTop: 48 }}>
+          <View style={{ padding: 24, paddingTop: 24 }}>
             <Text style={{ fontSize: 32, fontWeight: "bold", color: "white" }}>
-              SmartStock
+              YouStock
             </Text>
             <Text style={{ color: "#E0E7FF", marginTop: 8, fontSize: 16 }}>
               Welcome back, Manager
