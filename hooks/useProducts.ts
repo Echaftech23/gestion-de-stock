@@ -1,28 +1,31 @@
-import { useEffect, useState, useContext } from 'react';
-import { ProductContext } from '../contexts/ProductContext';
-import { fetchProducts } from '../api/products.api';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { queryKeys } from '@/services/queryKeys';
+import { fetchProducts, createProduct } from '@/services/products';
 
-const useProducts = () => {
-    const { products, setProducts } = useContext(ProductContext);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+function useProducts() {
+  const queryClient = useQueryClient();
 
-    useEffect(() => {
-        const loadProducts = async () => {
-            try {
-                const data = await fetchProducts();
-                setProducts(data);
-            } catch (err) {
-                setError(err);
-            } finally {
-                setLoading(false);
-            }
-        };
+  const { data: products = [], isLoading, error } = useQuery({
+    queryKey: [queryKeys.products],
+    queryFn: fetchProducts,
+    staleTime: 1000 * 60 * 5,
+  });
 
-        loadProducts();
-    }, [setProducts]);
+  const createMutation = useMutation({
+    mutationFn: createProduct,
+    onSuccess: (newProduct) => {      
+      queryClient.setQueryData([queryKeys.products], (oldProducts: Product[] | undefined) => {
+        return oldProducts ? [...oldProducts, newProduct] : [newProduct];
+      });
+    },
+  });
 
-    return { products, loading, error };
-};
+  return {
+    products,
+    isLoading,
+    error,
+    createProduct: createMutation.mutate,
+  };
+}
 
 export default useProducts;

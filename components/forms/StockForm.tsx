@@ -31,7 +31,12 @@ export const StockForm = ({ stock, onChange, errors = {} }: StockFormProps) => {
         onChangeText={(text) => 
           onChange({ 
             ...stock, 
-            localisation: { ...stock.localisation, city: text } 
+            localisation: { 
+              ...stock.localisation, 
+              city: text,
+              latitude: stock.localisation?.latitude || 0,
+              longitude: stock.localisation?.longitude || 0
+            } 
           })
         }
         error={errors.city}

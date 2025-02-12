@@ -3,9 +3,10 @@ import { View, ScrollView, Text, TouchableOpacity, TextInput, ActivityIndicator,
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { fetchProducts } from "@/services/products";
 import { router } from "expo-router";
 import { SortButton } from "@/components/products/SortButton";
+import { HeaderSection } from "@/components/products/HeaderSection";
+import useProducts from "@/hooks/useProducts";
 
 interface Stock {
   id: number;
@@ -24,12 +25,14 @@ interface Product {
 }
 
 const ProductsScreen = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Move all hooks to the top level
+  const { products = [], isLoading, error } = useProducts();
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("name");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-  const [error, setError] = useState<string | null>(null);
+
+  const getTotalQuantity = (product: Product) =>
+    product.stocks?.reduce((sum, stock) => sum + stock.quantity, 0) || 0;
 
   const handleSort = (value: string) => {
     if (sortBy === value) {
@@ -40,26 +43,13 @@ const ProductsScreen = () => {
     }
   };
 
-  useEffect(() => {
-    loadProducts();
-  }, []);
-
-  const loadProducts = async () => {
-    try {
-      const data = await fetchProducts();
-      setProducts(data);
-      setError(null);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
+  const handleAddProduct = () => {
+    router.push("/(products)/new");
   };
 
-  const getTotalQuantity = (product: Product) =>
-    product.stocks?.reduce((sum, stock) => sum + stock.quantity, 0) || 0;
-
   const filteredAndSortedProducts = () => {
+    if (!products) return [];
+    
     return products
       .filter((product) => {
         const query = searchQuery.toLowerCase();
@@ -91,11 +81,11 @@ const ProductsScreen = () => {
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView style={{ flex: 1 }}>
           {/* Header */}
-          <View style={{ padding: 24 }}>
-            <Text style={{ fontSize: 32, fontWeight: "bold", color: "white" }}>
-              Products
-            </Text>
-          </View>
+          <HeaderSection 
+            title="Products"
+            showAddButton
+            onAddPress={handleAddProduct}
+          />
 
           {/* Sort Options */}
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ paddingHorizontal: 24 }}>
@@ -124,10 +114,12 @@ const ProductsScreen = () => {
 
           {/* Products List */}
           <View style={{ padding: 24 }}>
-            {loading ? (
+            {isLoading ? (
               <ActivityIndicator size="large" color="white" />
             ) : error ? (
-              <Text style={{ color: "white", textAlign: "center" }}>{error}</Text>
+              <Text style={{ color: "white", textAlign: "center" }}>
+                {error instanceof Error ? error.message : "An error occurred"}
+              </Text>
             ) : (
               filteredAndSortedProducts().map((product, index) => {
                 const totalQty = getTotalQuantity(product);

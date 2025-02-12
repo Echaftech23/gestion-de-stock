@@ -5,16 +5,18 @@ import { HeaderSection } from '@/components/products/HeaderSection';
 import { ProductForm } from '@/components/forms/ProductForm';
 import { Product } from '@/types/product';
 import { router } from 'expo-router';
+import { createProduct } from '@/services/products';
+import useProducts from '@/hooks/useProducts';
 
 const AddProductScreen = () => {
+  const { createProduct } = useProducts();
+
   const handleSubmit = async (data: Partial<Product>) => {
     try {
-      // Add your API call here to save the product
-      console.log('Submitting product:', data);
-      
+      await createProduct(data);
       router.back();
     } catch (error) {
-      console.error('Error saving product:', error);
+      console.error('Error creating product:', error);
     }
   };
 
