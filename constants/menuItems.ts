@@ -1,5 +1,3 @@
-import { route } from "expo-router";
-
 export const menuItems = [
   {
     title: "View Products",
