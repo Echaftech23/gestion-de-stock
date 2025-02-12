@@ -4,15 +4,22 @@ import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { menuItems } from "@/constants/menuItems";
+import { useRouter } from "expo-router";
 
 const ExploreScreen = () => {
+  const router = useRouter();
+  
+  // @ts-ignore
+  const handleItemPress = (route) => {
+    router.push(route);
+  };
 
   return (
     <LinearGradient
       colors={["#4F46E5", "#7C3AED"]}
       style={{ flex: 1 }}
     >
-      <SafeAreaView  className="flex-1 -mt-12">
+      <SafeAreaView className="flex-1 -mt-12">
         <ScrollView style={{ flex: 1 }}>
           {/* Header Section */}
           <View style={{ padding: 24 }}>
@@ -59,6 +66,7 @@ const ExploreScreen = () => {
                   borderColor: "rgba(255, 255, 255, 0.2)",
                   overflow: "hidden"
                 }}
+                onPress={() => handleItemPress(item.route)}
               >
                 <View style={{ 
                   padding: 20,
