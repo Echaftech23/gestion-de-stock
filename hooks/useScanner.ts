@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import { Camera } from 'expo-camera';
 
 const useScanner = () => {
     const [hasPermission, setHasPermission] = useState<boolean | null>(null);
@@ -7,7 +7,7 @@ const useScanner = () => {
 
     useEffect(() => {
         (async () => {
-            const { status } = await BarCodeScanner.requestPermissionsAsync();
+            const { status } = await Camera.requestCameraPermissionsAsync();
             setHasPermission(status === 'granted');
         })();
     }, []);
