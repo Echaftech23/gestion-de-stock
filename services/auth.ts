@@ -22,12 +22,12 @@ export const isLoggedIn = async () => {
   return !!authToken;
 };
 
-// Get the currently logged-in user
 export const getCurrentUser = async () => {
   const userId = await AsyncStorage.getItem('authToken');
   if (!userId) return null;
 
-  return db.warehousemans.find((user: any) => user.id === parseInt(userId));
+  const user = db.warehousemans.find((user) => user.id === parseInt(userId));
+  return user || null;
 };
 
 // Log out the user

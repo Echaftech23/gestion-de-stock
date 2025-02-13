@@ -3,31 +3,30 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { HeaderSection } from '@/components/products/HeaderSection';
 import { ProductForm } from '@/components/forms/ProductForm';
-import { Product } from '@/types/product';
-import { router } from 'expo-router';
-import { createProduct } from '@/services/products';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import useProducts from '@/hooks/useProducts';
+import { Alert } from 'react-native';
 
 const AddProductScreen = () => {
   const { createProduct } = useProducts();
+  const { barcode } = useLocalSearchParams<{ barcode?: string }>();
+  const router = useRouter();
 
-  const handleSubmit = async (data: Partial<Product>) => {
+  const handleSubmit = async (data: any) => {
     try {
-      await createProduct(data);
+      await createProduct({ ...data, barcode });
       router.back();
     } catch (error) {
-      console.error('Error creating product:', error);
+      console.error(error);
+      Alert.alert('Error', 'Failed to create product.');
     }
   };
 
   return (
-    <LinearGradient colors={["#4F46E5", "#7C3AED"]} style={{ flex: 1 }}>
+    <LinearGradient colors={['#4F46E5', '#7C3AED']} style={{ flex: 1 }}>
       <SafeAreaView style={{ flex: 1 }}>
-        <HeaderSection 
-          title="Add Product"
-          showBackButton
-        />
-        <ProductForm onSubmit={handleSubmit} />
+        <HeaderSection title="Add Product" showBackButton />
+        <ProductForm onSubmit={handleSubmit} initialData={{ barcode }} />
       </SafeAreaView>
     </LinearGradient>
   );
