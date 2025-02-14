@@ -13,7 +13,7 @@
         {
           "id": 1999,
           "name": "Gueliz B2",
-          "quantity": 21,
+          "quantity": 200,
           "localisation": {
             "city": "Marrakesh",
             "latitude": 31.628674,
@@ -95,7 +95,7 @@
       "id": "db50",
       "name": "Angel",
       "type": "Bananas",
-      "barcode": "Amanda",
+      "barcode": "734484107947",
       "price": 15018,
       "supplier": "Schdjxjd",
       "image": "https://in-media.apjonlinecdn.com/catalog/product/cache/b3b166914d87ce343d4dc5ec5117b502/8/a/8aa01aa.png",

@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { authenticateUser, isLoggedIn, getCurrentUser, logoutUser } from '@/services/auth';
+import { authenticateUser, getCurrentUser, logoutUser } from '@/services/auth';
 import { useRouter } from 'expo-router';
 import { Alert } from 'react-native';
 

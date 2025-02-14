@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Stack } from "expo-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "../App.css";
-import { isLoggedIn } from "../services/auth";
-
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,33 +14,9 @@ const queryClient = new QueryClient({
 });
 
 const RootLayout = () => {
-  const [authenticated, setAuthenticated] = React.useState<boolean | null>(
-    null
-  );
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      const authStatus = await isLoggedIn();
-      setAuthenticated(authStatus);
-    };
-
-    checkAuth();
-  }, []);
-
   return (
     <QueryClientProvider client={queryClient}>
-      {authenticated === null ? (
-        // Loading state
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="loading" />
-        </Stack>
-      ) : !authenticated ? (
-        // Auth stack
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="(auth)/login" />
-        </Stack>
-      ) : (
-        // Main app stack
+      <ProtectedRoute>
         <Stack
           screenOptions={{
             headerStyle: {
@@ -54,32 +29,10 @@ const RootLayout = () => {
             headerShadowVisible: false,
           }}
         >
-          <Stack.Screen
-            name="(auth)"
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="loading"
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="(tabs)"
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="(products)"
-            options={{
-              headerShown: false,
-            }}
-          />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(products)" options={{ headerShown: false }} />
         </Stack>
-      )}
+      </ProtectedRoute>
     </QueryClientProvider>
   );
 };

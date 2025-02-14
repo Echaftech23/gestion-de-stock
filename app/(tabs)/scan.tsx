@@ -1,57 +1,50 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ActivityIndicator, Alert, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  StyleSheet,
+} from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { router } from "expo-router";
 import useProducts from "@/hooks/useProducts";
+import QuantityModal from "@/components/ui/modals/QuantityModal";
 
 const ScannerScreen = () => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [scanned, setScanned] = useState(false);
-  const { products, isLoading } = useProducts();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [selectedStock, setSelectedStock] = useState<any>(null);
+  const { products, isLoading, updateProductQuantity } = useProducts();
   const [permission, requestPermission] = useCameraPermissions();
 
-  // Request camera permissions
   useEffect(() => {
     (async () => {
       if (!permission) {
-        // If permission is not yet requested, request it
         const { status } = await requestPermission();
         setHasPermission(status === "granted");
       } else if (!permission.granted) {
-        // If permission is denied, set hasPermission to false
         setHasPermission(false);
       } else {
-        // If permission is already granted, set hasPermission to true
         setHasPermission(true);
       }
     })();
   }, [permission]);
 
-  // Handle barcode scan
   const handleBarCodeScanned = ({ type, data }: { type: string; data: string }) => {
-    setScanned(true); // Prevent multiple scans
+    if (scanned) return;
+    
+    console.log(`Bar code with type ${type} and data ${data} has been scanned!`);
+    setScanned(true);
     const product = products.find((p) => p.barcode === data);
 
     if (product) {
-      Alert.alert(
-        "Product Found",
-        `Do you want to update the quantity of ${product.name}?`,
-        [
-          {
-            text: "Increase Quantity",
-            onPress: () => handleQuantityUpdate(product.id, 1),
-          },
-          {
-            text: "Decrease Quantity",
-            onPress: () => handleQuantityUpdate(product.id, -1),
-          },
-          {
-            text: "Cancel",
-            style: "cancel",
-            onPress: () => setScanned(false),
-          },
-        ]
-      );
+      setSelectedProduct(product);
+      setSelectedStock(null);
+      setQuantity(1);
+      setModalVisible(true);
     } else {
       router.push({
         pathname: "/(products)/new",
@@ -60,19 +53,46 @@ const ScannerScreen = () => {
     }
   };
 
-  const handleQuantityUpdate = async (productId: string, quantityChange: number) => {
+  const handleStockSelect = (stock: any) => {
+    setSelectedStock(stock);
+    setQuantity(stock.quantity);
+  };
+
+  const handleQuantityUpdate = async () => {
+    if (!selectedStock) return;
+    
     try {
-      // await updateProductQuantity({ productId, quantityChange });
-      Alert.alert("Success", "Product quantity updated successfully!");
+      await updateProductQuantity({
+        productId: selectedProduct.id,
+        stockId: selectedStock.id,
+        quantityChange: quantity,
+      });
+      setModalVisible(false);
+      setSelectedProduct(null);
+      setSelectedStock(null);
+      setQuantity(1);
     } catch (error) {
-      Alert.alert("Error", "Failed to update product quantity.");
+      console.error("Failed to update quantity:", error);
     } finally {
       setScanned(false);
     }
   };
 
-  // Debugging: Log permission state
-  console.log("Camera Permission:", hasPermission);
+  const handleIncrement = () => {
+    setQuantity((prev) => prev + 1);
+  };
+
+  const handleDecrement = () => {
+    setQuantity((prev) => Math.max(prev - 1, 0));
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    setScanned(false);
+    setSelectedProduct(null);
+    setSelectedStock(null);
+    setQuantity(1);
+  };
 
   if (hasPermission === null) {
     return (
@@ -101,11 +121,17 @@ const ScannerScreen = () => {
           barcodeTypes: ["ean13", "upc_a"],
         }}
       />
-      {scanned && (
-        <View style={styles.scanOverlay}>
-          <Text style={styles.scanText}>Scanned!</Text>
-        </View>
-      )}
+      <QuantityModal
+        modalVisible={modalVisible}
+        closeModal={closeModal}
+        selectedProduct={selectedProduct}
+        selectedStock={selectedStock}
+        onStockSelect={handleStockSelect}
+        quantity={quantity}
+        handleDecrement={handleDecrement}
+        handleIncrement={handleIncrement}
+        handleQuantityUpdate={handleQuantityUpdate}
+      />
     </View>
   );
 };
@@ -119,17 +145,6 @@ const styles = StyleSheet.create({
   camera: {
     width: "100%",
     height: "100%",
-  },
-  scanOverlay: {
-    position: "absolute",
-    bottom: 20,
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
-    padding: 10,
-    borderRadius: 5,
-  },
-  scanText: {
-    color: "white",
-    fontSize: 16,
   },
 });
 

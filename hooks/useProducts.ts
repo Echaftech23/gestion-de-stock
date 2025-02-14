@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { fetchProducts, createProduct, updateProduct } from '@/services/products';
+import { fetchProducts, createProduct, updateProduct, updateProductQuantity } from '@/services/products';
 import useAuth  from './useAuth';
 
 const useProducts = () => {
@@ -70,12 +70,25 @@ const useProducts = () => {
     updateMutation.mutate(productWithUser);
   };
 
+  // Update product quantity mutation
+  const updateQuantityMutation = useMutation({
+    mutationFn: updateProductQuantity,
+    onSuccess: (updatedProduct) => {
+      queryClient.setQueryData(['products'], (oldProducts: Product[] | undefined) => {
+        return oldProducts?.map((product) =>
+          product.id === updatedProduct.id ? updatedProduct : product
+        );
+      });
+    },
+  });
+
   return {
     products,
     isLoading,
     error,
     createProduct: createProductWithUser,
     updateProduct: updateProductWithUser,
+    updateProductQuantity: updateQuantityMutation.mutate,
   };
 };
 
