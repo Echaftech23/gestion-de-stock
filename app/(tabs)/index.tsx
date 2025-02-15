@@ -9,8 +9,13 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
 import { StatisticsGrid } from "@/components/statistics/StatsGrid";
+import { actionsItems } from "@/constants/actionsItems";
+import { router } from "expo-router";
 
 const HomeScreen = () => {
+  const handleActionPress = (route: string) => {
+    router.push(route);
+  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <LinearGradient colors={["#4F46E5", "#7C3AED"]} style={{ flex: 1 }}>
@@ -40,14 +45,7 @@ const HomeScreen = () => {
                   justifyContent: "space-between",
                 }}
               >
-                {[
-                  { icon: "add-box", label: "Add Product" },
-                  { icon: "store", label: "Stocks" },
-                  { icon: "storefront", label: "Suppliers" },                
-                  { icon: "local-shipping", label: "Shipments" },
-                  { icon: "assessment", label: "Reports" },
-                  { icon: "help", label: "Help" },
-                ].map((item, index) => (
+                {actionsItems.map((item, index) => (
                   <TouchableOpacity
                     key={index}
                     style={{
@@ -59,6 +57,7 @@ const HomeScreen = () => {
                       borderWidth: 1,
                       borderColor: "rgba(99, 102, 241, 0.3)",
                     }}
+                    onPress={() => handleActionPress(item.route)}
                   >
                     <MaterialIcons name={item.icon} size={24} color="#E0E7FF" />
                     <Text
