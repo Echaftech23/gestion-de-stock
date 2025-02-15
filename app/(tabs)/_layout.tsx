@@ -62,7 +62,7 @@ const TabsLayout = () => {
         name="index"
         options={{
           title: "Overview",
-          headerTitle: "Home",          
+          headerTitle: "Dashboard",          
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="dashboard" size={24} color={color} />
           ),

@@ -1,18 +1,33 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
-import { useAuth } from "../../../hooks/useAuth";
+import { Stack } from "expo-router";
+import { isLoggedIn } from "@/services/auth";
 
-const ProtectedRoute = ({ component: Component, ...rest }) => {
-  const { isAuthenticated } = useAuth();
+export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const [authenticated, setAuthenticated] = React.useState<boolean | null>(null);
 
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        isAuthenticated ? <Component {...props} /> : <Redirect to="/login" />
-      }
-    />
-  );
-};
+  React.useEffect(() => {
+    const checkAuth = async () => {
+      const authStatus = await isLoggedIn();
+      setAuthenticated(authStatus);
+    };
+    checkAuth();
+  }, []);
 
-export default ProtectedRoute;
+  if (authenticated === null) {
+    return (
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="loading" />
+      </Stack>
+    );
+  }
+
+  if (!authenticated) {
+    return (
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(auth)/login" />
+      </Stack>
+    );
+  }
+
+  return <>{children}</>;
+}

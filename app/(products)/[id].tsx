@@ -12,22 +12,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, router } from "expo-router";
 import { fetchProductById } from "@/services/products";
+import { Product } from "@/types/product";
 
-interface Stock {
-  id: number;
-  name: string;
-  quantity: number;
-}
-
-interface Product {
-  id: string | number;
-  name: string;
-  price: number;
-  supplier: string;
-  type: string;
-  image: string;
-  stocks: Stock[];
-}
 
 const ProductDetailsScreen = () => {
   const { id } = useLocalSearchParams();

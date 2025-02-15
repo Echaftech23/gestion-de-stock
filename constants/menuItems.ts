@@ -8,7 +8,7 @@ export const menuItems = [
   },
   {
     title: "Stock Analysis",
-    icon: "analytics",
+    icon: "store",
     subtitle: "View detailed stock metrics",
     color: "bg-blue-500/20",
     route: "/(products)/products",

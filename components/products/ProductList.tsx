@@ -1,52 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { View, FlatList, Text, StyleSheet } from "react-native";
-import { fetchProducts } from "../../../api/products.api";
-import ProductCard from "./ProductCard";
 
-const ProductList = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+import React from "react";
+import { Text, ActivityIndicator } from "react-native";
+import { ProductCard } from "@/components/products/ProductCard";
 
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        const data = await fetchProducts();
-        setProducts(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadProducts();
-  }, []);
-
-  if (loading) {
-    return <Text>Loading...</Text>;
+export function ProductList({ products, error, isLoading }) {
+  if (isLoading) {
+    return <ActivityIndicator size="large" color="white" />;
   }
 
   if (error) {
-    return <Text>Error: {error}</Text>;
+    return (
+      <Text style={{ color: "white", textAlign: "center" }}>
+        {error instanceof Error ? error.message : "An error occurred"}
+      </Text>
+    );
   }
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={products}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <ProductCard product={item} />}
-      />
-    </View>
+    <>
+      {products.map((product, idx) => (
+        <ProductCard key={`${product.id}-${idx}`} product={product} />
+      ))}
+    </>
   );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-});
-
-export default ProductList;
+}
