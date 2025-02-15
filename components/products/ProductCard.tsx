@@ -1,52 +1,59 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React from "react";
+import { View, Text, Image, TouchableOpacity } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { router } from "expo-router";
 
-interface ProductCardProps {
-  product: {
-    id: string;
-    name: string;
-    price: number;
-    description: string;
-  };
+interface Stock {
+  id: number;
+  quantity: number;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  stocks?: Stock[];
+}
+
+interface Props {
+  product: Product;
+}
+
+export function ProductCard({ product }: Props) {
+  const totalQty = product.stocks?.reduce((sum, s) => sum + s.quantity, 0) || 0;
+
   return (
-    <View style={styles.card}>
-      <Text style={styles.title}>{product.name}</Text>
-      <Text style={styles.price}>${product.price.toFixed(2)}</Text>
-      <Text style={styles.description}>{product.description}</Text>
-    </View>
+    <TouchableOpacity
+      onPress={() => router.push(`/(products)/${product.id}`)}
+      style={{
+        backgroundColor: "rgba(255, 255, 255, 0.1)",
+        borderRadius: 20,
+        marginBottom: 16,
+        borderWidth: 1,
+        borderColor: "rgba(255, 255, 255, 0.2)",
+      }}
+    >
+      <View style={{ padding: 20, flexDirection: "row", alignItems: "center" }}>
+        <Image
+          source={{ uri: product.image }}
+          style={{
+            width: 60,
+            height: 60,
+            borderRadius: 12,
+            backgroundColor: "rgba(99, 102, 241, 0.2)",
+          }}
+        />
+        <View style={{ marginLeft: 16, flex: 1 }}>
+          <Text style={{ color: "white", fontSize: 18, fontWeight: "600", marginBottom: 4 }}>
+            {product.name}
+          </Text>
+          <Text style={{ color: "#E0E7FF", fontSize: 14 }}>
+            ${product.price} - Quantity: {totalQty}
+          </Text>
+        </View>
+        <MaterialIcons name="chevron-right" size={24} color="#E0E7FF" />
+      </View>
+    </TouchableOpacity>
   );
-};
-
-const styles = StyleSheet.create({
-  card: {
-    padding: 16,
-    margin: 8,
-    borderRadius: 8,
-    backgroundColor: '#fff',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  price: {
-    fontSize: 16,
-    color: '#888',
-  },
-  description: {
-    fontSize: 14,
-    color: '#666',
-  },
-});
-
-export default ProductCard;
+}

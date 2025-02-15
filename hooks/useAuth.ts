@@ -1,51 +1,47 @@
-import { useState, useEffect } from 'react';
-import { authApi } from '../api/auth.api';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { authenticateUser, getCurrentUser, logoutUser } from '@/services/auth';
+import { useRouter } from 'expo-router';
+import { Alert } from 'react-native';
 
 const useAuth = () => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
-    const login = async (credentials) => {
-        try {
-            setLoading(true);
-            const response = await authApi.login(credentials);
-            setUser(response.data);
-        } catch (err) {
-            setError(err);
-        } finally {
-            setLoading(false);
-        }
-    };
+  // Fetch the current user
+  const { data: user, isLoading, error } = useQuery({
+    queryKey: ['currentUser'],
+    queryFn: getCurrentUser,
+    staleTime: 1000 * 60 * 5,
+  });
 
-    const logout = async () => {
-        try {
-            setLoading(true);
-            await authApi.logout();
-            setUser(null);
-        } catch (err) {
-            setError(err);
-        } finally {
-            setLoading(false);
-        }
-    };
+  // Login mutation
+  const loginMutation = useMutation({
+    mutationFn: authenticateUser,
+    onSuccess: (user) => {
+      queryClient.setQueryData(['currentUser'], user);
+      router.push('/(tabs)');
+    },
+    onError: (error) => {
+      Alert.alert('Error', error.message);
+    },
+  });
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await authApi.getCurrentUser();
-                setUser(response.data);
-            } catch (err) {
-                setError(err);
-            } finally {
-                setLoading(false);
-            }
-        };
+  // Logout mutation
+  const logoutMutation = useMutation({
+    mutationFn: logoutUser,
+    onSuccess: () => {
+      queryClient.setQueryData(['currentUser'], null);
+      router.push('/login');
+    },
+  });
 
-        fetchUser();
-    }, []);
-
-    return { user, loading, error, login, logout };
+  return {
+    user,
+    isLoading,
+    error,
+    login: loginMutation.mutate,
+    logout: logoutMutation.mutate,
+  };
 };
 
 export default useAuth;
