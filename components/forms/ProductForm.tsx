@@ -4,6 +4,7 @@ import { FormInput } from './FormInput';
 import { StockForm } from './StockForm';
 import { Product, Stock } from '@/types/product';
 import { router } from 'expo-router';
+import { validateProductForm } from "@/utils/validation";
 
 interface ProductFormProps {
   initialData?: Partial<Product>;
@@ -23,22 +24,10 @@ export const ProductForm = ({ initialData = {}, onSubmit }: ProductFormProps) =>
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const validateForm = () => {
-    const newErrors: Record<string, string> = {};
-
-    if (!formData.name) newErrors.name = 'Name is required';
-    if (!formData.type) newErrors.type = 'Type is required';
-    if (!formData.barcode) newErrors.barcode = 'Barcode is required';
-    if (!formData.price) newErrors.price = 'Price is required';
-    if (!formData.supplier) newErrors.supplier = 'Supplier is required';    
-    if (!formData.stocks?.length) newErrors.stocks = 'At least one stock location is required';
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleSubmit = () => {
-    if (validateForm()) {
+    const newErrors = validateProductForm(formData);
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
       onSubmit(formData);
     }
   };
@@ -98,7 +87,7 @@ export const ProductForm = ({ initialData = {}, onSubmit }: ProductFormProps) =>
 
       <FormInput
         label="Image URL"
-        value={formData.image || 'https://in-media.apjonlinecdn.com/catalog/product/cache/b3b166914d87ce343d4dc5ec5117b502/8/a/8aa01aa.png'}
+        value={formData.image || ''}
         onChangeText={(text) => setFormData({ ...formData, image: text })}
         error={errors.image}
       />
@@ -126,7 +115,7 @@ export const ProductForm = ({ initialData = {}, onSubmit }: ProductFormProps) =>
         <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
           <Text style={styles.submitButtonText}>Save Product</Text>
         </TouchableOpacity>
-        
+
         <TouchableOpacity 
           style={styles.cancelButton} 
           onPress={() => router.back()}
