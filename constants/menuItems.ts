@@ -1,15 +1,15 @@
 export const menuItems = [
   {
-    title: "View Your Stocks",
-    icon: "store",
-    subtitle: "Monitor stock levels",
+    title: "View Products",
+    icon: "inventory",
+    subtitle: "Browse available products",
     color: "bg-blue-500/20",
     route: "/(products)/products",
   },
   {
-    title: "View Products",
-    icon: "inventory",
-    subtitle: "Browse available products",
+    title: "Stock Analysis",
+    icon: "store",
+    subtitle: "View detailed stock metrics",
     color: "bg-blue-500/20",
     route: "/(products)/products",
   },
