@@ -4,6 +4,7 @@ import {
   Text,
   ActivityIndicator,
   StyleSheet,
+  Alert,
 } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { router } from "expo-router";
@@ -39,7 +40,7 @@ const ScannerScreen = () => {
     setScanned(true);
     console.log("Scanned data:", data);
     console.log("Products:", products);
-    const product = products.find((p: { barcode: string; }) => p.barcode === data);
+    const product = products.find((p: { barcode: string; }) => p.barcode == data);
 
     console.log("Product found:", product);
 
@@ -74,6 +75,7 @@ const ScannerScreen = () => {
       setSelectedProduct(null);
       setSelectedStock(null);
       setQuantity(1);
+      Alert.alert("Quantity updated successfully");
     } catch (error) {
       console.error("Failed to update quantity:", error);
     } finally {

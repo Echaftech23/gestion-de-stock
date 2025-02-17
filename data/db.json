@@ -13,7 +13,7 @@
         {
           "id": 1999,
           "name": "Gueliz B2",
-          "quantity": 27,
+          "quantity": 70,
           "localisation": {
             "city": "Marrakesh",
             "latitude": 31.628674,
@@ -217,6 +217,6 @@
   "statistics": {
     "totalProducts": 7,
     "outOfStock": 1,
-    "totalStockValue": 569
+    "totalStockValue": 612
   }
 }
