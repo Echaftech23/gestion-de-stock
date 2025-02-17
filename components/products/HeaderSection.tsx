@@ -13,8 +13,6 @@ interface HeaderSectionProps {
 
 export const HeaderSection = ({
   title,
-  showAddButton = false,
-  onAddPress,
   showBackButton = false,
   onBackPress = () => router.back(),
 }: HeaderSectionProps) => {
@@ -31,16 +29,6 @@ export const HeaderSection = ({
         )}
         <Text style={styles.title}>{title}</Text>
       </View>
-      
-      {showAddButton && (
-        <TouchableOpacity
-          onPress={onAddPress}
-          style={styles.addButton}
-        >
-          <MaterialIcons name="add" size={24} color="white" />
-          <Text style={styles.addButtonText}>Add Product</Text>
-        </TouchableOpacity>
-      )}
     </View>
   );
 };

@@ -13,7 +13,7 @@ import { actionsItems } from "@/constants/actionsItems";
 import { router } from "expo-router";
 
 const HomeScreen = () => {
-  const handleActionPress = (route: string) => {
+  const handleActionPress = (route: any) => {
     router.push(route);
   };
   return (

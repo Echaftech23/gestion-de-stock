@@ -9,7 +9,6 @@ import { ProductList } from "@/components/products/ProductList";
 import { SortButton } from "@/components/products/SortButton";
 import { SearchBar } from "@/components/products/SearchBar";
 import useProducts from "@/hooks/useProducts";
-import { router } from "expo-router";
 
 export default function ProductsScreen() {
   const { products= [], isLoading, error } = useProducts();
@@ -40,7 +39,6 @@ export default function ProductsScreen() {
           <HeaderSection
             title="Products"
             showAddButton
-            onAddPress={() => router.push("/(products)/new")}
           />
 
           {/* SearchBar */}
