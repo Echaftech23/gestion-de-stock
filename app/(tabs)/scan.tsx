@@ -34,11 +34,14 @@ const ScannerScreen = () => {
   }, [permission]);
 
   const handleBarCodeScanned = ({ type, data }: { type: string; data: string }) => {
-    if (scanned) return;
     
     console.log(`Bar code with type ${type} and data ${data} has been scanned!`);
     setScanned(true);
+    console.log("Scanned data:", data);
+    console.log("Products:", products);
     const product = products.find((p) => p.barcode === data);
+
+    console.log("Product found:", product);
 
     if (product) {
       setSelectedProduct(product);

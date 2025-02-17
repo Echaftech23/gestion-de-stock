@@ -14,6 +14,9 @@ const useProducts = () => {
     enabled: !!user, // Only fetch if user is authenticated
   });
 
+  console.log("useProducts hook - products:", products);
+  console.log("useProducts hook - user:", user);
+
   // Create product mutation
   const createMutation = useMutation({
     mutationFn: createProduct,

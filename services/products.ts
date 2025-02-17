@@ -5,10 +5,15 @@ const API_URL = "/products";
 export const fetchProducts = async (userId?: string) => {
   try {
     const response = await axios.get(API_URL);
+    console.log("response.data", response.data);
     if (userId) {
-      return response.data.filter((product: any) => 
-        product.editedBy?.some((edit: any) => edit.warehousemanId === userId)
+      const ss = response.data.filter((product: any) => 
+        product.editedBy?.some((edit: any) => edit.warehousemanId == userId)
       );
+
+      console.log("filtered response", ss);
+
+      return ss
     }
     return response.data;
   } catch (error) {
@@ -72,18 +77,33 @@ export const deleteProduct = async (id: string) => {
 
 export const updateProductQuantity = async ({
   productId,
+  stockId,
   quantityChange,
 }: {
   productId: string;
+  stockId: number;
   quantityChange: number;
 }) => {
   try {
-    const response = await axios.patch(`${API_URL}/${productId}/quantity`, {
-      quantityChange,
-    });
+    const product = await fetchProductById(productId);
+
+    // Update the quantity in the specific stock
+    const updatedStocks = product.stocks.map(stock => 
+      stock.id === stockId 
+        ? { ...stock, quantity: quantityChange }
+        : stock
+    );
+
+    const updatedProduct = await updateProduct(productId, {
+      ...product,
+      stocks: updatedStocks,
+    }); 
+
+    // Update statistics
     const allProductsResponse = await axios.get(API_URL);
     await updateStatistics(allProductsResponse.data);
-    return response.data;
+
+    return updatedProduct;
   } catch (error) {
     throw new Error("Error updating product quantity: " + error.message);
   }

@@ -1,10 +1,10 @@
 {
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Laptop HP Pavilion",
       "type": "Informatique",
-      "barcode": "1234567890123",
+      "barcode": "6111242105669",
       "price": 1200,
       "solde": 1100,
       "supplier": "HP",
@@ -13,7 +13,7 @@
         {
           "id": 1999,
           "name": "Gueliz B2",
-          "quantity": 21,
+          "quantity": 27,
           "localisation": {
             "city": "Marrakesh",
             "latitude": 31.628674,
@@ -39,7 +39,7 @@
       ]
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Clavier Mécanique Logitech",
       "type": "Accessoires",
       "barcode": "9876543210987",
@@ -76,7 +76,7 @@
       ]
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Pc Gamer Omen By HP",
       "type": "Informatique",
       "barcode": "1236543210987",
@@ -142,11 +142,63 @@
           "at": "2025-02-17T09:29:07.128Z"
         }
       ]
+    },
+    {
+      "id": "4696",
+      "name": "Shchdcj",
+      "type": "Sjxdjdj",
+      "price": 200,
+      "supplier": "Ej  XX jscjdj",
+      "image": "https://in-media.apjonlinecdn.com/catalog/product/cache/b3b166914d87ce343d4dc5ec5117b502/8/a/8aa01aa.png",
+      "stocks": [
+        {
+          "id": 1739799984035,
+          "name": "Scjdjdcjj",
+          "quantity": 245,
+          "localisation": {
+            "city": "Dfudjdfj",
+            "latitude": 0,
+            "longitude": 0
+          }
+        }
+      ],
+      "editedBy": [
+        {
+          "warehousemanId": "1333",
+          "at": "2025-02-17T13:46:41.653Z"
+        }
+      ]
+    },
+    {
+      "id": "334c",
+      "name": "Ehfdjjdj",
+      "type": "Ejfdjjffjdjd",
+      "price": 280,
+      "supplier": "Eufdjdjjd",
+      "image": "https://in-media.apjonlinecdn.com/catalog/product/cache/b3b166914d87ce343d4dc5ec5117b502/8/a/8aa01aa.png",
+      "stocks": [
+        {
+          "id": 1739800530135,
+          "name": "Djdjxxj",
+          "quantity": 208,
+          "localisation": {
+            "city": "Djcdjcjcc",
+            "latitude": 0,
+            "longitude": 0
+          }
+        }
+      ],
+      "editedBy": [
+        {
+          "warehousemanId": "1333",
+          "at": "2025-02-17T13:55:43.297Z"
+        }
+      ]
     }
   ],
   "warehousemans": [
     {
-      "id": 1333,
+      "id": "1333",
       "name": "Amine Boutaleb",
       "dob": "1988-05-02",
       "city": "Oujda",
@@ -154,7 +206,7 @@
       "warehouseId": 1999
     },
     {
-      "id": 1444,
+      "id": "1444",
       "name": "Karim El Mansouri",
       "dob": "1990-09-15",
       "city": "Marrakesh",
@@ -163,8 +215,8 @@
     }
   ],
   "statistics": {
-    "totalProducts": 5,
+    "totalProducts": 7,
     "outOfStock": 1,
-    "totalStockValue": 110
+    "totalStockValue": 569
   }
 }
