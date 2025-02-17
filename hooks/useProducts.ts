@@ -8,9 +8,10 @@ const useProducts = () => {
 
   // Fetch products
   const { data: products = [], isLoading, error } = useQuery({
-    queryKey: ['products'],
-    queryFn: fetchProducts,
+    queryKey: ['products', user?.id],
+    queryFn: () => fetchProducts(user?.id),
     staleTime: 1000 * 60 * 5,
+    enabled: !!user, // Only fetch if user is authenticated
   });
 
   // Create product mutation

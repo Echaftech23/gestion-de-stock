@@ -15,7 +15,7 @@ const AddProductScreen = () => {
   const handleSubmit = async (data: any) => {
     try {
       await createProduct({ ...data, barcode });
-      router.back();
+      router.push('/products');
     } catch (error) {
       console.error(error);
       Alert.alert('Error', 'Failed to create product.');

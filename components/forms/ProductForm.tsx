@@ -85,13 +85,6 @@ export const ProductForm = ({ initialData = {}, onSubmit }: ProductFormProps) =>
         error={errors.supplier}
       />
 
-      <FormInput
-        label="Image URL"
-        value={formData.image || ''}
-        onChangeText={(text) => setFormData({ ...formData, image: text })}
-        error={errors.image}
-      />
-
       <View style={styles.stocksContainer}>
         <Text style={styles.stocksTitle}>Stock Locations</Text>
         {formData.stocks?.map((stock, index) => (
