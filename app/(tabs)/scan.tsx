@@ -39,7 +39,7 @@ const ScannerScreen = () => {
     setScanned(true);
     console.log("Scanned data:", data);
     console.log("Products:", products);
-    const product = products.find((p) => p.barcode === data);
+    const product = products.find((p: { barcode: string; }) => p.barcode === data);
 
     console.log("Product found:", product);
 

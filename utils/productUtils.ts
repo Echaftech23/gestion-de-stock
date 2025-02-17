@@ -1,18 +1,4 @@
-interface Stock {
-  id: number;
-  name: string;
-  quantity: number;
-}
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  supplier: string;
-  type: string;
-  image: string;
-  stocks: Stock[];
-}
+import { Product } from "@/types/product";
 
 export function filterProducts(products: Product[], searchTerm: string): Product[] {
   const query = searchTerm.toLowerCase();

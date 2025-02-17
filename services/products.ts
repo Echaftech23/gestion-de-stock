@@ -17,7 +17,7 @@ export const fetchProducts = async (userId?: string) => {
     }
     return response.data;
   } catch (error) {
-    throw new Error("Error fetching products: " + error.message);
+    throw new Error("Error fetching products: " + error);
   }
 };
 
@@ -26,7 +26,7 @@ export const fetchProductById = async (id: string) => {
     const response = await axios.get(`${API_URL}/${id}`);
     return response.data;
   } catch (error) {
-    throw new Error("Error fetching product: " + error.message);
+    throw new Error("Error fetching products: " + error);
   }
 };
 
@@ -53,7 +53,7 @@ export const createProduct = async (productData: any) => {
     await updateStatistics(allProductsResponse.data);
     return response.data;
   } catch (error) {
-    throw new Error("Error creating product: " + error.message);
+    throw new Error("Error fetching products: " + error);
   }
 };
 
@@ -63,15 +63,7 @@ export const updateProduct = async (id: string, productData: any) => {
     const response = await axios.put(`${API_URL}/${id}`, productData);
     return response.data;
   } catch (error) {
-    throw new Error("Error updating product: " + error.message);
-  }
-};
-
-export const deleteProduct = async (id: string) => {
-  try {
-    await axios.delete(`${API_URL}/${id}`);
-  } catch (error) {
-    throw new Error("Error deleting product: " + error.message);
+    throw new Error("Error updating product: " + error);
   }
 };
 
@@ -88,7 +80,7 @@ export const updateProductQuantity = async ({
     const product = await fetchProductById(productId);
 
     // Update the quantity in the specific stock
-    const updatedStocks = product.stocks.map(stock => 
+    const updatedStocks = product.stocks.map((stock: any) => 
       stock.id === stockId 
         ? { ...stock, quantity: quantityChange }
         : stock
@@ -105,6 +97,6 @@ export const updateProductQuantity = async ({
 
     return updatedProduct;
   } catch (error) {
-    throw new Error("Error updating product quantity: " + error.message);
+    throw new Error("Error updating product quantity:  " + error );
   }
 };

@@ -1,6 +1,7 @@
+import useAuth  from './useAuth';
+import { Product } from '@/types/product';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { fetchProducts, createProduct, updateProduct, updateProductQuantity } from '@/services/products';
-import useAuth  from './useAuth';
 
 const useProducts = () => {
   const queryClient = useQueryClient();
@@ -29,7 +30,7 @@ const useProducts = () => {
 
   // Update product mutation
   const updateMutation = useMutation({
-    mutationFn: updateProduct,
+    mutationFn: ({ id, ...data }: { id: string } & Partial<Product>) => updateProduct(id, data),
     onSuccess: (updatedProduct) => {
       queryClient.setQueryData(['products'], (oldProducts: Product[] | undefined) => {
         return oldProducts?.map((product) =>
