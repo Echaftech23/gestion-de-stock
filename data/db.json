@@ -4,7 +4,7 @@
       "id": "1",
       "name": "Laptop HP Pavilion",
       "type": "Informatique",
-      "barcode": "6111242105669",
+      "barcode": "61112421405669",
       "price": 1200,
       "solde": 1100,
       "supplier": "HP",
@@ -13,7 +13,7 @@
         {
           "id": 1999,
           "name": "Gueliz B2",
-          "quantity": 70,
+          "quantity": 100,
           "localisation": {
             "city": "Marrakesh",
             "latitude": 31.628674,
@@ -23,7 +23,7 @@
         {
           "id": 2991,
           "name": "Lazari H2",
-          "quantity": 24,
+          "quantity": 130,
           "localisation": {
             "city": "Oujda",
             "latitude": 34.689404,
@@ -194,6 +194,48 @@
           "at": "2025-02-17T13:55:43.297Z"
         }
       ]
+    },
+    {
+      "id": "cb96",
+      "name": "Jdjdjccjjdjd",
+      "type": "Shxh sjcj",
+      "barcode": "6111242105669",
+      "price": 200,
+      "supplier": "Dhdjxjj",
+      "image": "https://in-media.apjonlinecdn.com/catalog/product/cache/b3b166914d87ce343d4dc5ec5117b502/8/a/8aa01aa.png",
+      "stocks": [
+        {
+          "id": 1739809919122,
+          "name": "Bdcndjdn",
+          "quantity": 80,
+          "localisation": {
+            "city": "Djcjx jc",
+            "latitude": 0,
+            "longitude": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "e951",
+      "name": "Dhcsjcj",
+      "type": "Suffgjdj",
+      "barcode": "6111242105669",
+      "price": 28025,
+      "supplier": "Duddjcj",
+      "image": "https://in-media.apjonlinecdn.com/catalog/product/cache/b3b166914d87ce343d4dc5ec5117b502/8/a/8aa01aa.png",
+      "stocks": [
+        {
+          "id": 1739810198061,
+          "name": "Ejddjdjdj",
+          "quantity": 800,
+          "localisation": {
+            "city": "Dusjdjdjddj",
+            "latitude": 0,
+            "longitude": 0
+          }
+        }
+      ]
     }
   ],
   "warehousemans": [
@@ -215,8 +257,8 @@
     }
   ],
   "statistics": {
-    "totalProducts": 7,
+    "totalProducts": 9,
     "outOfStock": 1,
-    "totalStockValue": 612
+    "totalStockValue": 1628
   }
 }

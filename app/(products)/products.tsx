@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, ScrollView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -11,10 +11,14 @@ import { SearchBar } from "@/components/products/SearchBar";
 import useProducts from "@/hooks/useProducts";
 
 export default function ProductsScreen() {
-  const { products= [], isLoading, error } = useProducts();
+  const { products, isLoading, error } = useProducts();
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("name");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+
+  useEffect(() => {
+    console.log("Products:", products);
+  }, [products]);
 
   const clearSearch = () => setSearchQuery("");
 

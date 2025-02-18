@@ -4,17 +4,20 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { HeaderSection } from '@/components/products/HeaderSection';
 import { ProductForm } from '@/components/forms/ProductForm';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import useProducts from '@/hooks/useProducts';
+// import useProducts from '@/hooks/useProducts';
+import { useProductMutations } from '@/hooks/useProductMutations';
 import { Alert } from 'react-native';
 
 const AddProductScreen = () => {
-  const { createProduct } = useProducts();
+  // const { createProduct } = useProducts();
+  const { createMutation } = useProductMutations();
   const { barcode } = useLocalSearchParams<{ barcode?: string }>();
   const router = useRouter();
 
   const handleSubmit = async (data: any) => {
     try {
-      await createProduct({ ...data, barcode });
+      // await createProduct({ ...data, barcode });
+      await createMutation.mutateAsync({ ...data, barcode });
       router.push('/products');
     } catch (error) {
       console.error(error);
