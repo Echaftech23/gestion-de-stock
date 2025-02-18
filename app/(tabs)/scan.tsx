@@ -18,7 +18,7 @@ const ScannerScreen = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [selectedStock, setSelectedStock] = useState<any>(null);
-  const { products, isLoading, updateProductQuantity } = useProducts();
+  const { products, updateProductQuantity } = useProducts();
   const [permission, requestPermission] = useCameraPermissions();
 
   useEffect(() => {

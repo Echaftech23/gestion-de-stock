@@ -2,8 +2,8 @@ import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import { StatisticsCard } from '@/components/statistics/StatsCard';
 import { HeaderSection } from '@/components/products/HeaderSection';
+import StatisticsCard from '@/components/statistics/StatsCard';
 
 export default function StatisticsScreen() {
   return (
@@ -11,7 +11,7 @@ export default function StatisticsScreen() {
       <SafeAreaView style={styles.safeArea}>
         <ScrollView style={styles.scroll}>
           <HeaderSection title="Statistics" />
-          <StatisticsCard />
+          <StatisticsCard title={''} value={''} icon={'filter'} />
         </ScrollView>
       </SafeAreaView>
     </LinearGradient>

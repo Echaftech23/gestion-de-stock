@@ -8,7 +8,7 @@ interface StatisticsCardProps {
   value: string | number;
   subtitle?: string;
   icon: keyof typeof MaterialIcons.glyphMap;
-  gradientColors?: string[];
+  gradientColors?: readonly [string, string, ...string[]];
   onPress?: () => void;
 }
 
